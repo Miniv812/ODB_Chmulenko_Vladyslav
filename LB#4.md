@@ -13,16 +13,17 @@ COUNT(Кількість гравців в гільдіях):
 <img width="923" height="288" alt="{97B4608A-742E-48DC-8697-8FF9C5692F37}" src="https://github.com/user-attachments/assets/2622504a-920e-431c-a32e-5af0ee7acc21" />
 
 
-SUM(Підсумок усього лвл з усіх персножів):
+SUM(Загальна кількість предметів у кожного гравця):
 
 
-<img width="588" height="263" alt="{61084C53-674D-439E-B5E6-D9D8E9B83793}" src="https://github.com/user-attachments/assets/7a475e09-1b4b-441e-a99b-ba0ecca86bce" />
+<img width="651" height="544" alt="{B5C143D2-F8A2-4CE1-944C-79FE50079EFC}" src="https://github.com/user-attachments/assets/5389156f-0e02-4085-8a97-d30425fc4ac0" />
 
 
-AVG(середній лвл персонажів):
+
+AVG(Середня кількість предметів на гравця):
 
 
-<img width="663" height="269" alt="{676CF601-6476-4298-A474-6DE0DB0F82C9}" src="https://github.com/user-attachments/assets/20d84d48-5393-46c6-b070-e10fb8137e4c" />
+<img width="556" height="404" alt="{32C0669D-7C74-4D18-870F-6C1C533D97F0}" src="https://github.com/user-attachments/assets/4eb14867-28fe-4773-818c-05ea49c2a657" />
 
 
 MIN(мініамльний лвл персонажа):
@@ -31,14 +32,26 @@ MIN(мініамльний лвл персонажа):
 
 
 
-MAX(максимальний лвл персонажа):
+MAX(Найдорожчий предмет у грі):
 
-<img width="665" height="281" alt="{E7FB9215-A30A-4960-B57A-64F24B6CF9B9}" src="https://github.com/user-attachments/assets/043f2512-9d45-470a-9cf8-bb0e77d249e7" />
+<img width="568" height="257" alt="{71CFDE6A-E9C9-42A0-A99D-48043869828A}" src="https://github.com/user-attachments/assets/0023db3f-7612-45b2-a766-4dd02807d92f" />
 
 
 ---------
 
 Використання різних типів джоінів (LEFT JOIN, RIGHT JOIN, FULL JOIN, CROSS JOIN):
+
+INNER JOIN(Тільки зв’язані дані):
+
+
+<img width="616" height="427" alt="{A08AFA57-20AB-4D77-9E0E-D6804CE7EC7B}" src="https://github.com/user-attachments/assets/2ad9a4b9-a590-4cfa-bdb5-1d0e6261373a" />
+
+
+INNER JOIN(Інвентар гравця):
+
+
+<img width="662" height="590" alt="{A27C6CE0-E3A2-4E8D-A30A-F09D6D4BF049}" src="https://github.com/user-attachments/assets/8a3a9dd2-987d-4e1f-bf9d-2105ed087141" />
+
 
 LEFT JOIN(Всі істоти):
 
@@ -86,6 +99,12 @@ HAVING and GROUP BY(Гільдії з кількістю гравців >= 2):
 
 
 <img width="623" height="403" alt="{07B56421-1DEE-477B-B6EC-7168B098A43F}" src="https://github.com/user-attachments/assets/2c29ea0d-f0b5-465a-99ba-7240325ed888" />
+
+
+HAVING and GROUP BY(Класи, де середній рівень вище загального):
+
+
+<img width="531" height="421" alt="{57373658-1F57-4E95-8910-48F6B4BD71AB}" src="https://github.com/user-attachments/assets/7ad5726a-7c01-40a4-aa18-a434339a3350" />
 
 
 У ході лабораторної роботи я поглибив свої знання з БД
