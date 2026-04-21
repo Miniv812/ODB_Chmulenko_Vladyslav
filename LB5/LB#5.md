@@ -61,7 +61,7 @@ quest_id → quest_name, quest_description, quest_complexity, quest_repeatable
 
 # 3.1 Перша нормальна форма (1НФ)
 
-## Правила:
+## Вимоги:
 - усі атрибути мають бути атомарними
 - відсутність списків або повторюваних груп
 
@@ -76,7 +76,7 @@ quest_id → quest_name, quest_description, quest_complexity, quest_repeatable
 
 # 3.2 Друга нормальна форма (2НФ)
 
-## Правила:
+## Вимоги:
 - таблиця повинна бути у 1НФ
 - відсутність часткових залежностей від складеного ключа
 
@@ -103,7 +103,7 @@ quest_id → quest_name, quest_description, quest_complexity, quest_repeatable
 
 # 3.3 Третя нормальна форма (3НФ)
 
-## Правила:
+## ВИмоги:
 - таблиця повинна бути у 2НФ
 - відсутність транзитивних залежностей
 
