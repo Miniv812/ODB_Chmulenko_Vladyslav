@@ -72,12 +72,6 @@ quest_id → quest_name, quest_description, quest_complexity, quest_repeatable
 - всі значення атомарні (числа, текст, enum)
 - зв’язки many-to-many винесені в окремі таблиці
 
-## Приклад проблеми (до виправлення):
-❌ creature.drop_items = "меч,щит,зілля"
-
-## Виправлення:
-✔ creature_item(creature_id, item_id)
-
 ---
 
 # 3.2 Друга нормальна форма (2НФ)
