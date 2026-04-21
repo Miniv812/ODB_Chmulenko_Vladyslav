@@ -1,0 +1,276 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model award {
+  quest_id Int
+  item_id  Int   @unique
+  item     item  @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  quest    quest @relation(fields: [quest_id], references: [quest_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([quest_id, item_id])
+}
+
+model creature {
+  creature_id              Int                   @id @default(autoincrement())
+  creature_name            String                @unique @db.VarChar(30)
+  creature_description     String?
+  creature_type            creature_types
+  creature_characteristics String
+  creature_type_damage     creature_types_damage
+  creature_item            creature_item[]
+  creature_location        creature_location[]
+  killing                  killing[]
+}
+
+model creature_item {
+  creature_id Int
+  item_id     Int
+  creature    creature @relation(fields: [creature_id], references: [creature_id], onDelete: NoAction, onUpdate: NoAction)
+  item        item     @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([creature_id, item_id])
+}
+
+model creature_location {
+  creature_id Int
+  location_id Int
+  spawn_time  Int?
+  creature    creature @relation(fields: [creature_id], references: [creature_id], onDelete: NoAction, onUpdate: NoAction)
+  location    location @relation(fields: [location_id], references: [location_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([creature_id, location_id])
+}
+
+model customers {
+  customer_id       Int           @id @default(autoincrement())
+  customer_name     String        @db.VarChar(50)
+  customer_surname  String?       @db.VarChar(80)
+  customer_phone    String        @unique @db.VarChar(20)
+  customer_email    String        @unique @db.VarChar(100)
+  customer_password String        @db.VarChar(100)
+  reservation       reservation[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model guild {
+  guild_id          Int             @id @default(autoincrement())
+  guild_name        String          @unique @db.VarChar(50)
+  guild_description String?
+  guild_lvl         Int
+  guild_date_start  DateTime        @db.Date
+  guild_reputation  Int
+  location_guild    location_guild? @ignore
+  player            player[]
+  quest_guild       quest_guild[]
+}
+
+model hotel {
+  hotel_id     Int         @id @default(autoincrement())
+  hotel_name   String      @db.VarChar(100)
+  hotel_star   hotel_stars
+  hotel_city   String      @db.VarChar(100)
+  hotel_adress String      @db.VarChar(120)
+  room         room[]
+}
+
+model item {
+  item_id              Int             @id @default(autoincrement())
+  item_name            String          @db.VarChar(30)
+  item_description     String?
+  item_characteristics String
+  item_cost            Int?
+  item_tradeable       Boolean
+  award                award?
+  creature_item        creature_item[]
+  player_item          player_item[]
+}
+
+model killing {
+  quest_id    Int
+  creature_id Int
+  creature    creature @relation(fields: [creature_id], references: [creature_id], onDelete: NoAction, onUpdate: NoAction)
+  quest       quest    @relation(fields: [quest_id], references: [quest_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([quest_id, creature_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model location {
+  location_id         Int                 @id @default(autoincrement())
+  location_name       String              @unique @db.VarChar(20)
+  location_size       local_size
+  location_complexity local_complexity
+  location_min_lvl    Int
+  creature_location   creature_location[]
+  location_guild      location_guild?     @ignore
+  quest_location      quest_location[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model location_guild {
+  guild_id    Int?      @unique
+  location_id Int?      @unique
+  guild       guild?    @relation(fields: [guild_id], references: [guild_id], onDelete: NoAction, onUpdate: NoAction)
+  location    location? @relation(fields: [location_id], references: [location_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model player {
+  player_id              Int           @id @default(autoincrement())
+  player_name            String        @unique @db.VarChar(30)
+  player_characteristics String
+  pclass                 player_class
+  player_lvl             Int
+  user_id                Int
+  guild_id               Int?
+  guild                  guild?        @relation(fields: [guild_id], references: [guild_id], onDelete: NoAction, onUpdate: NoAction)
+  user                   user          @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+  player_item            player_item[]
+}
+
+model player_item {
+  player_id Int
+  item_id   Int
+  quantity  Int    @default(1)
+  item      item   @relation(fields: [item_id], references: [item_id], onDelete: NoAction, onUpdate: NoAction)
+  player    player @relation(fields: [player_id], references: [player_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([player_id, item_id])
+}
+
+model quest {
+  quest_id          Int              @id @default(autoincrement())
+  quest_name        String           @unique @db.VarChar(40)
+  quest_description String
+  quest_complexity  local_complexity
+  quest_repeatable  Boolean
+  award             award[]
+  killing           killing[]
+  quest_guild       quest_guild[]
+  quest_location    quest_location[]
+}
+
+model quest_guild {
+  quest_id Int
+  guild_id Int
+  guild    guild @relation(fields: [guild_id], references: [guild_id], onDelete: NoAction, onUpdate: NoAction)
+  quest    quest @relation(fields: [quest_id], references: [quest_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([quest_id, guild_id])
+}
+
+model quest_location {
+  quest_id    Int
+  location_id Int
+  location    location @relation(fields: [location_id], references: [location_id], onDelete: NoAction, onUpdate: NoAction)
+  quest       quest    @relation(fields: [quest_id], references: [quest_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([quest_id, location_id])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reservation {
+  reservation_id      Int                 @id @default(autoincrement())
+  check_in_date       DateTime            @db.Date
+  check_out_date      DateTime            @db.Date
+  number_of_customers Int
+  customer_id         Int?
+  room_id             Int?
+  reservation_status  reservations_status
+  customers           customers?          @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
+  room                room?               @relation(fields: [room_id], references: [room_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model room {
+  room_id                             Int           @id @default(autoincrement())
+  room_number                         Int
+  hotel_id                            Int
+  room_type                           Int
+  reservation                         reservation[]
+  hotel                               hotel         @relation(fields: [hotel_id], references: [hotel_id], onDelete: NoAction, onUpdate: NoAction)
+  room_type_room_room_typeToroom_type room_type     @relation("room_room_typeToroom_type", fields: [room_type], references: [type_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([hotel_id, room_number])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model room_type {
+  type_id                        Int     @id @default(autoincrement())
+  type_name                      String  @unique @db.VarChar(50)
+  capacity                       Int
+  price                          Decimal @db.Decimal(10, 2)
+  description                    String?
+  room_room_room_typeToroom_type room[]  @relation("room_room_typeToroom_type")
+}
+
+model user {
+  user_id            Int         @id @default(autoincrement())
+  user_nickname      String      @unique @db.VarChar(20)
+  user_email         String      @unique @db.VarChar(40)
+  user_password      String      @db.VarChar(256)
+  status             user_status
+  user_starting_date DateTime    @db.Date
+  player             player[]
+}
+
+enum creature_types {
+  // Тварина @map("Тварина")
+  // Елементаль @map("Елементаль")
+  // Демон @map("Демон")
+  // Механізм @map("Механізм")
+  // Мурлок @map("Мурлок")
+}
+
+enum creature_types_damage {
+  // Вогняний @map("Вогняний")
+  // Елементальний @map("Елементальний")
+  // Ближній @map("Ближній")
+  // Дальній @map("Дальній")
+  // Магічний @map("Магічний")
+}
+
+enum hotel_stars {
+  // 1 Зірка @map("1 Зірка")
+  // 2 Зірки @map("2 Зірки")
+  // 3 Зірки @map("3 Зірки")
+  // 4 Зірки @map("4 Зірки")
+  // 5 Зірок <3 @map("5 Зірок <3")
+}
+
+enum local_complexity {
+  // Легка @map("Легка")
+  // Середня @map("Середня")
+  // Важка @map("Важка")
+}
+
+enum local_size {
+  // Мала @map("Мала")
+  // Середня @map("Середня")
+  // Велика @map("Велика")
+}
+
+enum player_class {
+  // Маг @map("Маг")
+  // Воин @map("Воин")
+  // Стрелок @map("Стрелок")
+}
+
+enum reservations_status {
+  // Заброньовано @map("Заброньовано")
+  // Скасовано @map("Скасовано")
+  // Завершено @map("Завершено")
+}
+
+enum user_status {
+  // Онлайн @map("Онлайн")
+  // Офлайн @map("Офлайн")
+}
